@@ -1,0 +1,83 @@
+#创建一个节点
+class Node(object):
+    def __init__(self, item):
+        self.elem = item
+        self.right = None
+        self.left = None
+#创建树
+class Tree(object):
+    def __init__(self):
+        self.root = None
+    #开发添加函数
+    def add(self, item):
+        node = Node(item)
+        queue = [self.root]
+        if not self.root:
+            self.root = node
+            return
+        while queue:
+            cur_node = queue.pop(0)
+            if not cur_node.left:
+                cur_node.left = node
+                return
+            else:
+                queue.append(cur_node.left)
+            if not cur_node.right:
+                cur_node.right = node
+                return
+            else:
+                queue.append(cur_node.right)
+    #开发遍历函数
+    #1、层级遍历（广度遍历）
+    def levelorder(self):
+        queue = [self.root]
+        if self.root is None:
+            return
+        while queue:
+            cur_node = queue.pop(0)
+            print(cur_node.elem,end=' ')
+            if cur_node.left is not None:
+                queue.append(cur_node.left)
+            if cur_node.right is not None:
+                queue.append(cur_node.right)
+    #2、前序遍历
+    def preorder(self,node):
+        if not node:
+            return
+        print(node.elem,end=' ')
+        self.preorder(node.left)
+        self.preorder(node.right)
+    #3、中序遍历
+    def inorder(self,node):
+        if not node:
+            return
+        self.inorder(node.left)
+        print(node.elem,end=' ')
+        self.inorder(node.right)
+    #4、后序遍历
+    def postorder(self,node):
+        if not node:
+            return
+        self.postorder(node.left)
+        self.postorder(node.right)
+        print(node.elem,end=' ')
+
+if __name__ == '__main__':
+    t = Tree()
+    t.add(0)
+    t.add(1)
+    t.add(2)
+    t.add(3)
+    t.add(4)
+    t.add(5)
+    t.add(6)
+    t.add(7)
+    t.add(8)
+    t.add(9)
+    t.levelorder()
+    print(' ')
+    t.preorder(t.root)
+    print(' ')
+    t.inorder(t.root)
+    print(' ')
+    t.postorder(t.root)
