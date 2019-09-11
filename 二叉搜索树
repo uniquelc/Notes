@@ -45,7 +45,7 @@ class Tree(object):
         if not node:
             return
         print(node.elem,end=' ')
-        self.preorder(node.left)
+        self.preorder(node.left)   #递归函数前加self的原因：在下面调用实例t.preorder时self会自动替换成实例t，如果没有self那么我函数未定义，调用不了函数
         self.preorder(node.right)
     #3、中序遍历
     def inorder(self,node):
