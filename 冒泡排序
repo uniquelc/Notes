@@ -1,3 +1,4 @@
+#自己的思路
 ans = list(map(int,input()))
 first = 0
 second = 1
@@ -11,4 +12,11 @@ while k >= 2:
     k -= 1
     first -= k
     second -= k
+print(ans)
+#网上的思路
+ans = list(map(int,input()))
+for j in range(len(ans)-1,0,-1):
+    for i in range(j):
+        if ans[i]>ans[i+1]:
+            ans[i], ans[i+1] = ans[i+1], ans[i]
 print(ans)
