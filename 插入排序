@@ -1,0 +1,9 @@
+ans = list(map(int,input()))
+for i in range(1,len(ans)):
+    while i >0:
+        if ans[i]<ans[i-1]:
+            ans[i], ans[i-1] = ans[i-1], ans[i]
+            i -= 1
+        else:
+            break
+print(ans)
