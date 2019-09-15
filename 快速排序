@@ -1,0 +1,8 @@
+ans = list(map(int,input()))
+for j in range(len(ans)-1):
+    min = j
+    for i in range(j+1,len(ans)):
+        if ans[i]<ans[min]:
+            min = i
+    ans[j], ans[min] = ans[min], ans[j]
+print(ans)
