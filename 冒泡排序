@@ -1,0 +1,14 @@
+ans = list(map(int,input()))
+first = 0
+second = 1
+k = len(ans)
+while k >= 2:
+    while second < k:
+        if ans[first] > ans[second]:
+            ans[first], ans[second] = ans[second], ans[first]
+        first += 1
+        second += 1
+    k -= 1
+    first -= k
+    second -= k
+print(ans)
