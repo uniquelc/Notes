@@ -9,7 +9,7 @@ def merge_sort(list1):
     right = 0
     result = []
     while left < len(left_list) and right < len(right_list):
-        if left_list[left] < right_list[right]:
+        if left_list[left] <= right_list[right]:
             result.append(left_list[left])
             left += 1
         else:
