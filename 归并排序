@@ -1,0 +1,27 @@
+def merge_sort(list1):
+    len_list1 = len(list1)
+    if len_list1 <= 1:
+        return list1
+    mid = len_list1 // 2
+    left_list = merge_sort(list1[:mid])
+    right_list = merge_sort(list1[mid:])
+    left = 0
+    right = 0
+    result = []
+    while left < len(left_list) and right < len(right_list):
+        if left_list[left] < right_list[right]:
+            result.append(left_list[left])
+            left += 1
+        else:
+            result.append((right_list[right]))
+            right += 1
+    result += left_list[left:]
+    result += right_list[right:]
+    return result
+
+
+if __name__ == '__main__':
+    list1 = [36, 56, 89, 78, 45, 23, 10, 99, 111, 99]
+    print(list1)
+    sort_list1 = merge_sort(list1)
+    print(sort_list1)
