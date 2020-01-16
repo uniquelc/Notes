@@ -43,6 +43,7 @@
  * 数据类型是指导程序在运行阶段应该分配多大的内存空间，不同的数据类型底层会分配不同大小的空间。
  
 5、八种数据类型在全局变量的默认值
+ 
  * 数据类型在全局变量中如果不赋值，那么将赋予默认值：
    数据类型                      默认值
    -----------------------------------
@@ -50,3 +51,35 @@
    float double                 0.0
    boolean                      false
    char                         \u0000
+
+6、++i和i++的区别
+ 
+ * ++出现在变量后【i++】
+ * 规则：先做赋值运算，再做自加1运算。
+ int a = 100;
+ int b = a ++;
+ System.out.println(a); //101
+ System.out.println(b); //100
+ 
+ * ++出现在变量前【++i】
+ * 规则：先进行自加1运算，然后在进行赋值操作。
+ int a = 100;
+ int b = ++ a;
+ System.out.println(a) //101
+ System.out.println(b) //101
+ 
+7、逻辑与&和短路与&&
+
+ * int x = 10;
+   int y = 8;
+   System.out.println( x < y & ++x < y );
+   System.out.println(x); //11
+ * int x = 10;
+   int y = 8;
+   System.out.println( x < y && ++x < y );
+   System.out.println(x); //10
+   //后面的表达式没有执行，这种现象被称为短路现象
+ 
+ * 第一个表达式的执行结果为fasle，会发生短路与。
+ * 第一个表达式的执行结果为ture，会发生短路或。
+ 
