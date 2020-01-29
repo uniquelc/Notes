@@ -84,28 +84,28 @@
  * 第一个表达式的执行结果为ture，会发生短路或。
  
 8、关于类的说明
-public class MethodText{ //表示一个公开的类，起名为MethodText,由于是公开的，所以源文件名必须是：MethodText(与类名相同)
-    //类体
-    //类体中不能直接编写java语句，除声明变量之外
-    //方法出现在类体当中
+ public class MethodText{ //表示一个公开的类，起名为MethodText,由于是公开的，所以源文件名必须是：MethodText(与类名相同)
+     //类体
+     //类体中不能直接编写java语句，除声明变量之外
+     //方法出现在类体当中
 
-    //方法
-    //public表示公开的
-    //static表示静态的
-    //void表示方法执行结束后不返回任何数据
-    //main是方法名：主方法
-    //(String[] args):形式参数列表，其中String[]是一种引用数据类型，args是一个局部变量的变量名
-    //主方法就要这样写，这是程序的入口，程序都是从入口开始执行的。
-    public static void main(String[] args){
-    }
-    public static void m(){
-        for(int i = 0; i < 10; i++){
-            if(i == 5){
-                return; //终止的是m()方法。如果为break，则终止的是for循环。
-            }
-        }
-    }
-}
+     //方法
+     //public表示公开的
+     //static表示静态的
+     //void表示方法执行结束后不返回任何数据
+     //main是方法名：主方法
+     //(String[] args):形式参数列表，其中String[]是一种引用数据类型，args是一个局部变量的变量名
+     //主方法就要这样写，这是程序的入口，程序都是从入口开始执行的。
+     public static void main(String[] args){
+     }
+     public static void m(){
+         for(int i = 0; i < 10; i++){
+             if(i == 5){
+                 return; //终止的是m()方法。如果为break，则终止的是for循环。
+             }
+         }
+     }
+ }
 
 9、方法在执行过程当中，在JVM中的内存是如何分配的了，内存是如何变化的了？
     * 方法只定义，不调用，是不会执行的，并且在JVM中也不会给该方法分配“运行所属”的内存空间。
