@@ -201,5 +201,29 @@
       C直接继承B类，但是C间接继承A、T类。
     - 如果一个类没有显示的继承任何类，该类默认继承JavaSE库当中的java.lang.Object类的所有特征。
     - Java语言中任何一个类都有Object特征
+17、多态
+    - 多态的基本概念
+      * 向上转型（upcasting）
+        子类型 --> 父类型
+        又被称为：自动类型转换
+      * 向下转型（downcasting）
+        父类型 --> 子类型
+        又被称为：强制类型转换。【需要加强制类型转换符】
+      * 无论是向上还是向下转型，两种类型之间必须要有继承关系。【否则无法编译通过】
+    - 父类型引用指向子类型对象这种机制导致程序在编译阶段绑定和运行阶段绑定两种不同的形态、状态，这种机制可以成为一种多态语法机制、
+    - 当向下转型的时候会发生强制转换，例：
+       Animal a3 = new Cat();  Cat c3 = (Cat)a3;【将Animal类型引用a3转为Cat类型c3】
+    - 若引用没有继承关联的对象，就会有ClassCastExcaption错误，例：
+      Animal a3 = new Bird();  Cat c3 = (Cat)a3;
+    - Java规范中要求：在强制类型转换之前，建议采用instanceof运算符进行判断。例：
+      if(a3 instanceof Cat){ //a3是一个cat类型对象，结果为布尔类型
+          Cat c3 = (Cat)a3;
+          c3.catchMouse(); //cat特有行为/方法
+      }else if(a3 instanceof Bird){ //a3是一个Bird类型对象
+          Bird b2 = (Bird)a3;
+          b2.fly(); //bird特有行为/方法
+      }
+      
     
+
 
