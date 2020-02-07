@@ -223,6 +223,24 @@
           Bird b2 = (Bird)a3;
           b2.fly(); //bird特有行为/方法
       }
+18、final关键字
+    - final修饰的类无法被继承
+    - final修饰的方法无法被覆盖
+    - final修饰的变量一旦赋值之后，不可重新赋值
+    - Java语言规定实例变量使用final修饰符之后，必须手动赋值，不能使用默认值。final int age = 10;
+19、常量
+    - final修饰的实例变量是不可变的，一般和static联合使用，成为“常量”
+    - 常用语法格式：
+      public static final 类型.变量名 = 值     【Java规范中要求常量的名字全部大写，每个单词之间使用下划线连接】 例：
+        public static final GUO_JI = "中国";
+20、访问控制权限修饰符
+    - 访问控制权限修饰符包括：
+      * public  //表示公开的，在任何位置都能访问
+      * protected  //同包，子类
+      * default(缺省)  //同包
+      * private  //表示私有的，只能在本类中访问
+    - 类只能用缺省或public
+
       
     
 
