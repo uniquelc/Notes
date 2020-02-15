@@ -297,4 +297,17 @@
       * StringBuffer是线程安全的。（可以在多线程环境下使用）
       * StringBuilder是非线程安全的。
 
-
+25、迭代器
+    public class Exercise {
+        public static void main(String[] args) {
+            List list = new ArrayList();
+            list.add(1);
+            list.add(2);
+            list.add(3);
+            Iterator it = list.iterator();
+            while (it.hasNext()){
+                Object tmp = it.next();
+                System.out.println(tmp);
+            }
+        }
+    }
