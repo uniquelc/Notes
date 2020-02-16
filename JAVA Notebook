@@ -318,4 +318,9 @@
       * 先调用被存储key值的hashcode方法，经过某个hash算法得出hash值，如果当前哈希表中不存在这个数值，则添加元素，若已存在数值，继续调用key之间的equals方法，若返回值为true，添加元素，返回值为false，不添加元素（已存在当前元素）。
     - HashSet和HashMap的初始容量都是16，默认加载因子是0.75（存储达75%就扩容）。
     - 当创建set的时候，如果创建相同的对象填入时，由于引用地址不同，hashcode会算出不同的hash值，故而将相同的对象添加进set中，所以需要对hashcode方法重写。
+27、SortedSet
+    - SortedSet底层用TreeSet实现，无序不重复，并且可以对添加的元素进行排序的一个集合。
+    - SortedSet不能直接对自己定义的类实现排序，需要重写compareTo方法。
+
+
 
