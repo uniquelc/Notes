@@ -320,7 +320,7 @@
     - 当创建set的时候，如果创建相同的对象填入时，由于引用地址不同，hashcode会算出不同的hash值，故而将相同的对象添加进set中，所以需要对hashcode方法重写。
 27、SortedSet
     - SortedSet底层用TreeSet实现，无序不重复，并且可以对添加的元素进行排序的一个集合。
-    - SortedSet不能直接对自己定义的类实现排序，需要重写compareTo方法。
+    - SortedSet不能直接对自己定义的类实现排序，需要重写compareTo方法或写一个比较器Comparetor。
 
 
 
