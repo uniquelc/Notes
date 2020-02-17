@@ -342,5 +342,16 @@
                 System.out.println(new String(bytes));  //按字符串输出当前读取的字节
             }
       }
+      * public Test{
+            public static void main(String[] args) throws Exception{
+                FileInputStream file = new FileInputStream("文件地址");
+                byte[] bytes = new byte[1024];  //每一次最多读取1kb
+                while (true){
+                    int tmp = file.read(bytes);
+                    if (tmp == -1) break;
+                    System.out.println(new String(bytes, 0, tmp));  
+                }
+            }
+      }
 
 
