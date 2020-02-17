@@ -332,6 +332,7 @@
                 FileInputStream file = new FileInputStream("文件地址");
                 int tmp = file.read();
                 System.out.println(tmp);
+                file.close();
             }
       }
       * public Test{
@@ -340,6 +341,7 @@
                 byte[] bytes = new byte[3];  //每一次最多读取三个字节
                 int tmp = file.read(bytes);  //tmp值为这一次读取的字节数
                 System.out.println(new String(bytes));  //按字符串输出当前读取的字节
+                file.close();
             }
       }
       * public Test{
@@ -349,11 +351,26 @@
                 while (true){
                     int tmp = file.read(bytes);
                     if (tmp == -1) break;
-                    System.out.println(new String(bytes, 0, tmp));  
+                    System.out.println(new String(bytes, 0, tmp)); 
+                    file.close();
                 }
             }
       }
       * available()方法会返回文件中估计的剩余字节数。
       * skip(int i)方法会跳过i个字节。
+  - FileOutputStream文件字节输出流
+    * 将计算机内存数据写入硬盘中
+    * public Test{
+            public static void main(String[] args) throws Exception{
+                FileOutputStream file = new FileOutputStream("文件地址"); //若没有文件，则自动创建文件。
+                String msg = "Hello World";  //写入字符串
+                byte[] bytes = msg.getBytes();  //将字符串存入byte数组中
+                file.write(bytes);  //（覆盖的方式）bytes数组中字节写入文件中
+                //FileOutputStream file = new FileOutputStream("文件地址"， true);  //（追加的方式）bytes数组中字节写入文件中
+                file.flush();  //刷新
+                
+                }
+            }
+      }
 
 
