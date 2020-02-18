@@ -311,17 +311,34 @@
             }
         }
     }
-26、HashSet
+26、读取键盘输入
+    - Scanner
+      public test{
+          public static void main(String{} args){
+              Scanner tmp = new Scanner(System.in);
+              String name = tmp.readLine();
+              System.out.println(name);
+          }
+      }
+    - BufferedReader
+      public test throws Exception{
+          public static void main(String{} args){
+              BufferedReader name = new BufferedReader(new InputStreamReader(System.in));
+              String tmp = name.readLine();
+              System.out.println(tmp);
+          }
+      }
+27、HashSet
     - HashSet底层是一个HashMap，HashMap底层采用哈希表数据结构。
     - 哈希表底层是一个数组，这个数组中每一个元素又是一个单向链表，每个链表有一个独一无二的hash值，代表数组的下标，在单向链表中每一个节点上的hash值时相等的。hash值时key调用hashcode方法，再通过使用hash function转换成的值。
     - 哈希表中添加元素的原理：
       * 先调用被存储key值的hashcode方法，经过某个hash算法得出hash值，如果当前哈希表中不存在这个数值，则添加元素，若已存在数值，继续调用key之间的equals方法，若返回值为true，添加元素，返回值为false，不添加元素（已存在当前元素）。
     - HashSet和HashMap的初始容量都是16，默认加载因子是0.75（存储达75%就扩容）。
     - 当创建set的时候，如果创建相同的对象填入时，由于引用地址不同，hashcode会算出不同的hash值，故而将相同的对象添加进set中，所以需要对hashcode方法重写。
-27、SortedSet
+28、SortedSet
     - SortedSet底层用TreeSet实现，无序不重复，并且可以对添加的元素进行排序的一个集合。
     - SortedSet不能直接对自己定义的类实现排序，需要重写compareTo方法或写一个比较器Comparetor。
-28、IO流
+29、IO流
     - 流根据方向可以分为：输入流（InputStream/Read）和输出流（OutputStream/Write）（相对内存而言）。
     - 流根据读取数据的方式可分为：字符流和字节流。字符流按照字符的方式读取，一次读取两个字节。Java语言中一个字符占两个字节。
     - 字节流适合读取：视频、声音、图片等二进制文件。字节流适合读取:纯文本文件。
@@ -370,6 +387,65 @@
                 file.flush();  //刷新
                 
                 }
+            }
+      }
+  - FileReader文件字符输入流
+    * public Test{
+            public static void main(String[] args) throws Exception{
+                FileReader file = new FileReader("C:/Users/lc/Documents/test01.txt");
+                char[] chars = new char[512];
+                int tmp = 0;
+                while ((tmp = file.read(chars)) != -1){
+                    System.out.println(new String(chars, 0, tmp));
+                }
+                file.close();
+            }
+      }
+  - FileWriter文件字符输出流
+    * public Test{
+            public static void main(String[] args) throws Exception{
+                FileWriter file = new FileWriter("C:/Users/lc/Documents/test01.txt");
+                file.write("Hello World")；  //可以直接写字符串
+                //char[] chars = {'张', '三', '你', '好'}  // 可以写入char数组的一部分
+                //file.write(chars, 0, 2)  //写入张三
+                file.flush();
+                file.close();
+            }
+      }
+  - BufferdReader带有缓冲区的字符输入流
+    * public Test{
+            public static void main(String[] args) throws Exception{
+                FileReader file = new FileReader("C:/Users/lc/Documents/test01.txt");  //先创建一个文件字符输入流
+                BufferdReader br = new BufferdReader(file);  //将字符输入流包装成带有缓冲区的字符输入流
+                //BufferdReader br = new BufferdReader(new FileReader("C:/Users/lc/Documents/test01.txt"));  //一行表示
+                String tmp = null;
+                while ((tmp = br.readLine()) != null){  //br.readLine()方法读取一行，但是不带换行符。
+                    System.out.println(tmp);
+                }
+                br.close();  //只需关闭包装流（装饰者模式）
+            }
+      }
+    * public Test{
+            public static void main(String[] args) throws Exception{
+                FileInputStream file = new FileInputStream("C:/Users/lc/Documents/test01.txt");  //创建一个字节输入流
+                InputStreamReader new_file = new InputStreamReader(file);  //将一字节输入流包装成字符输入流
+                BufferdReader br = new BufferdReader(new_file);  //将字符输入流包装成带有缓冲区的字符输入流
+                .
+                .
+                .
+                br.close();
+                
+            }
+      }
+  - BufferedWriter
+    * public Test{
+            public static void main(String[] args) throws Exception{
+                BufferedWriter bw = new BufferedWriter(new FileWriter("Test01.txt"));
+                bw.write("中国");
+                bw.newLine();  //换行
+                bw.write("最美")；
+                bw.flush();
+                bw.close();
             }
       }
 
