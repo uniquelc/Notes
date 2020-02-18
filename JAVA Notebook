@@ -448,5 +448,104 @@
                 bw.close();
             }
       }
-
+  - 装饰者模式（Decorator）
+    * 装饰者这中含有被装饰者的引用
+    * 装饰者和被装饰者实现同一个类型
+    例：
+    #A类
+    public abstract A{
+        public abstract void test();
+    }
+    
+    #B类(装饰者类)
+    public class B extends A{
+        A a;
+        B(A a){
+            this.a = a;
+        }
+        public void test(){
+            System.out.println("--------");
+            a.test();
+            System.out.println("--------");
+        }
+    }
+    
+    #C类（被装饰类）
+    public class C extends A{
+        public void test(){
+            System.out.println("This is C test");
+        }
+    }
+    
+    #Test类
+    public class Test(){
+        public static void main(String[] args){
+            //创建被装饰者
+            C c = new C();
+            //创建装饰者
+            B b = new B(c);
+            b.test();
+        }
+    }
+  - PrintStream
+    * public test{
+        public static void main(String[] args) throws Exception{
+            System.out.println("Hello World");  //输出到控制台
+            PrintStream ps = System.out;
+            ps.println("Hello World");
+            System.setOut(new PrintStream(new FileOutputStream("Test01.txt")));  //改变输出方向，输出到文件中
+            System.out.println("Hello World");
+        }
+    }
+  - ObjectOutputStream  //序列化Java对象到硬盘
+    * public test{
+        public static void main(String[] args) throws Exception{
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Test.txt"));  //创建输出流（序列化流），（JVM中的Java对象储存到硬盘中）
+            User user = new User("name");
+            oos.writeObject(oos);
+            oos.flush();
+            oos.close();
+        }
+    }
+   # User类
+   import java.io.Serializable;  //该接口是一个实现可序列化的接口
+   public class User implements Serializable{
+       String name;
+       //transient String name;  //如果不想让name参加序列化，在前面加上关键字transient
+       static final long serialVersionUID = 12356498L；  //自定义版本号防止自动生成无法反序列化
+       User(String name){
+           this.name = name;
+       }
+       public String toString(){
+           return "User[name="+name+"]";
+       }
+       
+   }
+  - ObjectInputStream  //将硬盘中的数据反序列化到JVM内存
+    *public test{
+        public static void main(String[] args) throws Exception{
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Test.txt"));
+            Object o = ois.readObject();
+            System.out.println(o);
+            ois.close();
+        }
+    }
+30、File
+    - File是文件和目录路径名的抽象表示形式
+    - Flie代表的是硬盘上的文件夹和文件
+    - public test{
+        public static void main(String[] args) throws Exception{
+            File f1 = new File("Test.txt");  //相对路径
+            File f2 = new File("/usr/local/Test.txt");  //绝对路径
+            File f3 = new File("/usr/local");  //文件夹
+            System.out.println(f1.exists());  //exists()方法表示 当前文件或文件夹是否存在
+            if (!f3.exists()){
+                f3.mkdir();  //创建目录
+            }
+            if (!f2.exists()){
+                f2.creatNewFile(); //创建文件
+            }
+        }
+    }
+    
 
