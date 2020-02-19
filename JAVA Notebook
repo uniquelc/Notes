@@ -694,6 +694,80 @@
           }
       }
 32、线程的同步(synchronized)
+    - 同步编程模型：t1和t2两个线程，线程t1必须等线程t2结束后，t1线程才能执行
+    - 异步编程模型：t1和t2两个线程，谁也不等谁，各自执行
+    - 为了线程的安全考虑，必须用同步编程模型，线程同步使线程等同为单线程
+    - 使用线程同步的条件：
+      * 必须是多线程环境
+      * 多线程环境共享一个数据
+      * 共享的数据涉及到修改操作
+    - 遇到synchronized就会去找对象锁，然后才会执行。
+    - 当synchronized放到静态方法上面，线程执行此方法会去找类锁
+      * public class Exercise {
+    public static void main(String[] args) throws Exception{
+        Account act = new Account("lc",5000);
+        Thread t1 = new Thread(new Processor(act));
+        Thread t2 = new Thread(new Processor(act));
+        t1.start();
+        t2.start();
+    }
+    }
+    class  Processor implements Runnable{
+            Account act;
+            Processor(Account act){
+                this.act = act;
+            }
+            public void run(){
+                act.withDraw(1000);
+                System.out.println("成功取款1000元，余额为： " + act.getBalance());
+            }
 
+    }
+    class Account{
+        private String name;
+        private double balance;
+
+        Account(){}
+
+        Account(String name, double balance){
+            this.name = name;
+            this.balance = balance;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public double getBalance() {
+            return balance;
+        }
+
+        public void setBalance(double balance) {
+            this.balance = balance;
+        }
+        public void withDraw(double money){
+            synchronize(this){
+                double tmp = balance - money;
+                try {
+                    Thread.sleep(1000);
+                }catch (Exception e){}
+                this.setBalance(tmp);
+            }
+        }
+        /*public synchronized void withDraw(double money){  //对整个方法进行加锁
+            double tmp = balance - money;
+            try {
+                Thread.sleep(1000);
+            }catch (Exception e){}
+            this.setBalance(tmp);
+        }
+        */
+    }
+    - 守护线程Daemon()方法
+      * 当其他线程结束守护线程才结束（可将一个无线循环的线程变为守护循环得以结束）
 
 
