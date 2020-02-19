@@ -34,7 +34,7 @@
 
  * JAVA中字符串型字面值需用双引号括起来
  * JAVA中字符型字面值需用单引号括起来
- 
+ 1
 4、关于JAVA中的变量与数据类型
 
  * 变量本质上来说是内存中的一块空间，这块空间有数据类型、有名字、有字面值。
@@ -547,5 +547,153 @@
             }
         }
     }
-    
+31、多线程
+    - 通过集成Thread创建线程
+      * public class Test{
+          public static void main(String[] args){
+              Thread a = new Processor();  //创建一个线程
+              t.start();  //这段代码执行，告诉JVM再分配一个栈给t线程
+                          //run不需要程序员手动调用，系统线程启动之后自动调用run方法。
+              for (int i = 0; i < 10; i++){  //主线程中调用这个循环
+                  System.out.println(i);
+              }
+          }
+      }
+      class Processor extends Thread{  //继承之后就是线程
+          public void run(){  //重写run方法
+              for (int i = 0; i < 100; i++){
+                  System.out.println(i);
+              }
+          }
+      }
+    - 通过实现接口Runnable创建进程
+      * public class Test{
+          public static void main(String[] args){
+              Thread t = new Thread(new Processor());  //实现了Runnable接口并传入Thread中才算线程
+              t.start();  //这段代码执行，告诉JVM再分配一个栈给t线程
+                          //run不需要程序员手动调用，系统线程启动之后自动调用run方法。
+              for (int i = 0; i < 10; i++){  //主线程中调用这个循环
+                  System.out.println(i);
+              }
+          }
+      }
+      class Processor impelements Runnable{
+          public void run(){  //重写run方法
+              for (int i = 0; i < 100; i++){
+                  System.out.println(i);
+              }
+          }
+      }
+    - 线程新建到消亡五个状态：
+      * 新建  //Thead新建进程，调用start()方法进入就绪状态
+      * 就绪  //就绪状态就有权抢夺CPU时间片，当拿到时间片就执行run()方法，进入运行状态
+      * 运行  //若CPU时间片用完则返回就绪状态，等待时间片，反复如此，直到run()执行结束，线程消亡。【有可能阻塞，并进入阻塞状态】
+      * 阻塞  //阻塞状态不会参与时间片的抢夺【阻塞状态解除，进入就绪状态】
+      * 消亡
+    - 线程的优先级
+      * 优先级由1-10，默认优先级为5
+      * Thread中有三个常量优先级，MAX_PRIORITY = 10, MIN_PRIORITY = 1, NORM_PRIORITY=5
+      * public class Test{
+          public static void main(String[] args){
+              Thread a1 = new Processor();
+              a1.setName("a1");
+              Thread a2 = new Processor();
+              a1.setName("a2");
+              a1.setPriority(1);  //设置优先级
+              a2.setPriority(10);
+              a1.start();
+              a2.start();
+          }
+      }
+      class Processor extends Thread{
+          public void run(){
+              for (int i = 0; i < 100; i++){
+                  System.out.println(i);
+              }
+          }
+      }
+    - 线程阻塞方法sleep(毫秒)
+      * public class Test{
+          public static void main(String[] args) throws Exception{
+              Thread a1 = new Processor();
+              a1.setName("a1");
+              for (int i = 0; i < 10; i++){
+                  System.out.println(i);
+                  Thread.sleep(500);  //main主线程阻塞0.5s
+              }
+              //t.interrupt();  //打断阻塞（用异常处理机制）
+          }
+      }
+      class Processor extends Thread{
+          public void run(){
+              for (int i = 0; i < 100; i++){
+                  System.out.println(i);
+                  try{
+                      Thread.sleep(1000);  //此线程阻塞1s
+                  }catch(InterruptedException e){
+                      e.printStackTrace();
+                  }
+              }
+          }
+      }
+      *  public class Test{
+          public static void main(String[] args) throws Exception{
+              Thread a1 = new Processor();
+              a1.setName("a1");
+              for (int i = 0; i < 10; i++){
+                  System.out.println(i);
+                  Thread.sleep(500);  //main主线程阻塞0.5s
+              }
+              a1.run = false;  //终止阻塞
+          }
+      }
+      class Processor extends Thread{
+          public void run(){
+              int run = true;
+              for (int i = 0; i < 100; i++){
+                  if (run){
+                      System.out.println(i);
+                      try{
+                          Thread.sleep(1000);  //此线程阻塞1s
+                      }catch(InterruptedException e){
+                          e.printStackTrace();
+                      }
+                  }eles{
+                      return;
+                  }
+              }
+          }
+      }
+    - 线程合并join()
+      * public class Test{
+          public static void main(String[] args) throws Exception{
+              Thread a1 = new Processor();
+              a1.setName("a1");
+              a1.join();  //a1在哪个线程就和哪个线程合并
+              for (int i = 0; i < 10; i++){
+                  System.out.println(i);
+                  Thread.sleep(500);  //main主线程阻塞0.5s
+              }
+          }
+      }
+      class Processor extends Thread{
+          public void run(){
+              int run = true;
+              for (int i = 0; i < 100; i++){
+                  if (run){
+                      System.out.println(i);
+                      try{
+                          Thread.sleep(1000);  //此线程阻塞1s
+                      }catch(InterruptedException e){
+                          e.printStackTrace();
+                      }
+                  }eles{
+                      return;
+                  }
+              }
+          }
+      }
+32、线程的同步(synchronized)
+
+
 
