@@ -1,0 +1,181 @@
+mysql> show databases;  //显示数据库
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use test;  //选择数据库
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;  //选择数据表
++----------------+
+| Tables_in_test |
++----------------+
+| address        |
+| user           |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select name="陆川",age*5 from address;
++---------------+-------+
+| name="陆川"    | age*5 |
++---------------+-------+
+|             1 |   115 |
++---------------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from address;
++--------+------+-------------+-----------------------+
+| name   | age  | phonenumber | address               |
++--------+------+-------------+-----------------------+
+| 陆川   |   23 | 1057331188  | 黑龙江哈尔滨市           |
++--------+------+-------------+-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select name,age*5 from address;
++--------+-------+
+| name   | age*5 |
++--------+-------+
+| 陆川   |   115 |
++--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select name,age*5 as age from address;
++--------+------+
+| name   | age  |
++--------+------+
+| 陆川   |  115 |
++--------+------+
+1 row in set (0.00 sec)
+
+mysql> select name,age*5 age from address;  //省略as
++--------+------+
+| name   | age  |
++--------+------+
+| 陆川   |  115 |
++--------+------+
+1 row in set (0.00 sec)
+
+mysql> select name from address where age=23;  //查询address数据表中年龄23岁的名字
++--------+
+| name   |
++--------+
+| 陆川   |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select name from address where age>10;
++--------+
+| name   |
++--------+
+| 陆川   |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select name from address where age>10 and age<30;
++--------+
+| name   |
++--------+
+| 陆川   |
++--------+
+1 row in set (0.00 sec)
+
+mysql>  select address from address where address is null;
++---------+
+| address |
++---------+
+| NULL    |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select age from address where age = 23 or age = 26;  //找出address数据表中年龄等于23或26的
++------+
+| age  |
++------+
+|   23 |
+|   26 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select age from address where age in (23,26);  //等同于上面
++------+
+| age  |
++------+
+|   23 |
+|   26 |
++------+
+2 rows in set (0.00 sec)
+
+//  '%'代表多个字符，'_'代表一个字符
+mysql> select age from address where age like "%2%";  //模糊查询，找出年龄中有带2数字的
++------+
+| age  |
++------+
+|   23 |
+|   26 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select age from address where age like "_3%";  //找出年龄中第二个字母为3的
++------+
+| age  |
++------+
+|   23 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select age from address order by age;  //按年龄排序，默认升序(asc)
++------+
+| age  |
++------+
+|   23 |
+|   26 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select age from address order by age desc;  //按年龄排序，desc表示降序
++------+
+| age  |
++------+
+|   26 |
+|   23 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select name,age from address order by age, name desc;  //年龄按升序排列，名字按降序排列。order by 后用逗号分割，越靠前的字段起得作用越大
++-----------+------+
+| name      | age  |
++-----------+------+
+| 陆川      |   23 |
+| 周润发    |   26 |
+| 刘德华    |   26 |
++-----------+------+
+3 rows in set (0.00 sec)
+
+mysql> select name,age from address order by 2;  //根据第二段关键字也就是年龄排序
++-----------+------+
+| name      | age  |
++-----------+------+
+| 陆川      |   23 |
+| 刘德华    |   26 |
+| 周润发    |   26 |
++-----------+------+
+3 rows in set (0.00 sec)
+
+执行顺序
+select
+    *   .......3
+from
+    tablename..1
+where
+    条件........2
+order by
+    ...........4
