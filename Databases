@@ -179,3 +179,61 @@ where
     条件........2
 order by
     ...........4
+
+//分组函数（对某一组处理）
+//分组函数主动忽略null
+sum求和
+count计数
+avg平均值
+min最小值
+max最大值
+
+mysql> select sum(age) as age from address;  //
++------+
+| age  |
++------+
+|   75 |
++------+
+1 row in set (0.01 sec)
+
+mysql> select max(age) from address;
++----------+
+| max(age) |
++----------+
+|       26 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(name) from address;  //总共3个名字，计数
++-------------+
+| count(name) |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select ifnull(age,0) from address;  //ifnull（单行处理函数）（可能为null的值，该怎么处理）
++---------------+
+| ifnull(age,0) |
++---------------+
+|            23 |
+|             0 |
+|            26 |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select sum(ifnull(age,0)) from address;
++--------------------+
+| sum(ifnull(age,0)) |
++--------------------+
+|                 49 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(age) from address;  //分组函数自动忽略null
++----------+
+| sum(age) |
++----------+
+|       49 |
++----------+
+1 row in set (0.00 sec)
