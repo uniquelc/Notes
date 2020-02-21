@@ -237,3 +237,5 @@ mysql> select sum(age) from address;  //分组函数自动忽略null
 |       49 |
 +----------+
 1 row in set (0.00 sec)
+count(*):表示总记录条数
+count(某个字段):表示某个字段中不为null的数据总数量
