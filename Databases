@@ -237,5 +237,126 @@ mysql> select sum(age) from address;  //分组函数自动忽略null
 |       49 |
 +----------+
 1 row in set (0.00 sec)
+
+/*
 count(*):表示总记录条数
 count(某个字段):表示某个字段中不为null的数据总数量
+*/
+
+/*
+group by:按照某个或者某些字段进行分组,如果sql语句中没有group by语句，那么此表会自成一组
+当一个SQL语句中有group by的时候，select后面只能跟分组函数和参与分组的字段
+having:对分组之后的数据再次过滤
+
+mysql> select name,max(age) from address group by name;  //按名字分组的年龄中最大值
++-----------+----------+
+| name      | max(age) |
++-----------+----------+
+| 陆川      |       23 |
+| 刘德华    |     NULL |
+| 周润发    |       26 |
++-----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select name,phonenumber,max(age) from address group by name,phonenumber;  //多字段分组，找出不同名字不同电话（可能相同）年龄最大的人
++-----------+-------------+----------+
+| name      | phonenumber | max(age) |
++-----------+-------------+----------+
+| 陆川      | 1057331188  |       23 |
+| 刘德华    | 18888888888 |     NULL |
+| 周润发    | 18826267272 |       26 |
++-----------+-------------+----------+
+3 rows in set (0.00 sec)
+
+//where效率高，能用where就不用having
+
+//查询语句语法总结
+select
+...      5
+from
+...      1
+where
+...      2
+group by
+...      3
+having
+...      4
+order by
+...      6
+
+
+mysql> select distinct age from address;  //distinct去重查询
++------+
+| age  |
++------+
+|   23 |
+| NULL |
+|   26 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> select u.id,a.age from user u,address a;  //查两个表
++----+------+
+| id | age  |
++----+------+
+|  3 |   23 |
+|  2 |   23 |
+|  1 |   23 |
+|  3 | NULL |
+|  2 | NULL |
+|  1 | NULL |
+|  3 |   26 |
+|  2 |   26 |
+|  1 |   26 |
++----+------+
+9 rows in set (0.00 sec)
+
+mysql> select u.name,n.name from user u,name n where u.id=n.id;  //等值连接，根据id筛选 SQL92语法
++------+-----------+
+| name | name      |
++------+-----------+
+| Paul | 刘德华    |
+| Pal  | cc        |
+| Pal  | 张学友    |
++------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select u.name,n.name from user u join name n on u.id=n.id;  //SQL99语法
++------+-----------+
+| name | name      |
++------+-----------+
+| Paul | 刘德华    |
+| Pal  | cc        |
+| Pal  | 张学友    |
++------+-----------+
+3 rows in set (0.00 sec)
+
+
+/*内连接和外连接
+内连接：若A表和B表进行连接，使用内连接就是将B表中能和A表匹配的查询出来
+外连接：若A表和B表进行连接，使用外连接，会有一个主表一个副表，主要查询主表中的数据，稍带查询副表中的数据，若副表中没有可以和主表中匹配上，副表自动模拟出NULL与之匹配
+外连接最大的特点就是将主表中的数据全部插叙出来
+*/
+
+/*子查询（嵌套）
+select
+...(select)
+from
+...(select)
+where
+...(select)
+
+mysql> select * from address where age > (select avg(age) from address);
++-----------+------+-------------+---------+
+| name      | age  | phonenumber | address |
++-----------+------+-------------+---------+
+| 周润发    |   26 | 18826267272 | NULL    |
++-----------+------+-------------+---------+
+1 row in set (0.00 sec)
+
+
+//from后接子查询，from后等价与一个新表
+select t*,s.grade from (select deptno,avg(sal) from emp group by deptno) t join salgrade s on t.avg(sal) between s.losal and s.hisal;
+
+*/
+
