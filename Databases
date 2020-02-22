@@ -355,8 +355,107 @@ mysql> select * from address where age > (select avg(age) from address);
 1 row in set (0.00 sec)
 
 
-//from后接子查询，from后等价与一个新表
+from后接子查询，from后等价与一个新表
 select t*,s.grade from (select deptno,avg(sal) from emp group by deptno) t join salgrade s on t.avg(sal) between s.losal and s.hisal;
 
 */
+
+//union将结果集在一起显示
+
+//limit（重点） Mysql独有的分页查询
+//limit取结果集中的部分数据
+//语法   limit startindex(初始位置) length（取出的个数）
+
+mysql> select name,age from address order by age limit 0,2;  //取前结果前两个数字 或者写成limit 2
++-----------+------+
+| name      | age  |
++-----------+------+
+| 刘德华    | NULL |
+| 陆川      |   23 |
++-----------+------+
+2 rows in set (0.00 sec)
+
+通用分页标准（假如每页显示3个记录）
+第一页：limit 0,3
+第二页：limit 3,3
+第三页：limit 6,3
+...
+第n页：limit (n-1)*3,3
+
+常用数据类型：
+int         整数型
+bigint      长整型
+float       浮点型
+char        定长字符串
+varchar     可变长字符串
+//如果数据长度确定如生日，性别等就用char效率更高，不确定长度用varchar
+date        日期类型
+BLOB        二进制大对象（视频，图片等流媒体）
+CLOB        字符大对象（文本，文档）
+
+ - 表的复制：
+create table 表名 as select...;
+create table emp as select * from adderss;
+ - 批量插入：
+insert into table emp select & from address;  //将后面的查询结果插入到emp表中
+
+ - update 表名 set 字段名1=值，字段名2=值 where...  （不加where添加全部）
+将部门10的LOC改为SHANGHAI，部门名改为RENSHIBU
+update emp set loc='SHANGHAI',dname='RENSHIBU' where deptno = 10;
+
+ - delete from 表名 where...  (不加where删除所有记录)
+truncate table 表名   (只留表头，不可回滚)
+
+ - 约束
+   * 非空约束（not null）：约束的字段不能为null
+    * mysql> insert into t_user(id,password) values(1,'123');
+      ERROR 1364 (HY000): Field 'username' doesn't have a default value  //非空约束了username，故不能为空
+      
+      mysql> insert into t_user(id,username,password) values(1,'list','123');
+      Query OK, 1 row affected (0.01 sec)
+      
+   * 唯一约束（unique）：约束的字段不能重复，但可以为null
+     *   mysql> drop table t_user;
+         Query OK, 0 rows affected (0.02 sec)
+
+         mysql> create table t_user(id int,usename varchar(255) unique);
+         Query OK, 0 rows affected (0.03 sec)
+
+         mysql> insert into t_user values(1,'abc');
+         Query OK, 1 row affected (0.01 sec)
+
+         mysql> insert into t_user values(1,'abc');
+         ERROR 1062 (23000): Duplicate entry 'abc' for key 't_user.usename'
+         
+         mysql> create table t_user(id int,username varchar(255),usercode varchar(255),unique(usercode,username));  //联合添加一个约束
+         Query OK, 0 rows affected (0.03 sec)
+
+         mysql> create table t_user(id int,username varchar(255) unique,usercode varchar(255) unique);  //联合添加两个约束
+         Query OK, 0 rows affected (0.03 sec)
+         
+         mysql> create table t_user(id int primary key auto_increment,username varchar(255));  //auto_increment表示主键自增
+         Query OK, 0 rows affected (0.03 sec)
+
+         mysql> insert into t_user(username) values('a'),('b');
+         Query OK, 2 rows affected (0.01 sec)
+         Records: 2  Duplicates: 0  Warnings: 0
+
+         mysql> select * from t_user;
+         +----+----------+
+         | id | username |
+         +----+----------+
+         |  1 | a        |
+         |  2 | b        |
+         +----+----------+
+         2 rows in set (0.00 sec)
+
+
+
+   * 主键约束 (primary key)：约束的字段既不能为null也不能重复,主键位代表这一行在表中的唯一标识（一张表只能有一个主键）
+   * 外键约束 (foreign key)：外键约束一定是主键或有唯一性的字段
+     *   mysql> create table t_class(cno int,cname varchar(255),primary key(cno));  //创建父表
+         Query OK, 0 rows affected (0.02 sec)
+
+         mysql> create table t_student(sno int,sname varchar(255),classno int,foreign key(classno) references t_class(cno));  //创建爱你子表
+         Query OK, 0 rows affected (0.03 sec)
 
