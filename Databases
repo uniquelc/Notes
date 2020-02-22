@@ -170,23 +170,23 @@ mysql> select name,age from address order by 2;  //根据第二段关键字也�
 +-----------+------+
 3 rows in set (0.00 sec)
 
-执行顺序
-select
-    *   .......3
-from
-    tablename..1
-where
-    条件........2
-order by
-    ...........4
+- 执行顺序
+   select
+       *   .......3
+   from
+       tablename..1
+   where
+       条件........2
+   order by
+       ...........4
 
-//分组函数（对某一组处理）
-//分组函数主动忽略null
-sum求和
-count计数
-avg平均值
-min最小值
-max最大值
+- 分组函数（对某一组处理）
+  * 分组函数主动忽略null
+- sum求和
+- count计数
+- avg平均值
+- min最小值
+- max最大值
 
 mysql> select sum(age) as age from address;  //
 +------+
@@ -244,9 +244,9 @@ count(某个字段):表示某个字段中不为null的数据总数量
 */
 
 /*
-group by:按照某个或者某些字段进行分组,如果sql语句中没有group by语句，那么此表会自成一组
-当一个SQL语句中有group by的时候，select后面只能跟分组函数和参与分组的字段
-having:对分组之后的数据再次过滤
+- group by:按照某个或者某些字段进行分组,如果sql语句中没有group by语句，那么此表会自成一组
+  当一个SQL语句中有group by的时候，select后面只能跟分组函数和参与分组的字段
+- having:对分组之后的数据再次过滤
 
 mysql> select name,max(age) from address group by name;  //按名字分组的年龄中最大值
 +-----------+----------+
@@ -268,21 +268,21 @@ mysql> select name,phonenumber,max(age) from address group by name,phonenumber; 
 +-----------+-------------+----------+
 3 rows in set (0.00 sec)
 
-//where效率高，能用where就不用having
+ * where效率高，能用where就不用having
 
-//查询语句语法总结
-select
-...      5
-from
-...      1
-where
-...      2
-group by
-...      3
-having
-...      4
-order by
-...      6
+- 查询语句语法总结
+   select
+   ...      5
+   from
+   ...      1
+   where
+   ...      2
+   group by
+   ...      3
+   having
+   ...      4
+   order by
+   ...      6
 
 
 mysql> select distinct age from address;  //distinct去重查询
@@ -332,19 +332,22 @@ mysql> select u.name,n.name from user u join name n on u.id=n.id;  //SQL99语法
 3 rows in set (0.00 sec)
 
 
-/*内连接和外连接
+- 内连接和外连接
 内连接：若A表和B表进行连接，使用内连接就是将B表中能和A表匹配的查询出来
+   *  等值连接
+   *  非等值连接
+   *  自连接
 外连接：若A表和B表进行连接，使用外连接，会有一个主表一个副表，主要查询主表中的数据，稍带查询副表中的数据，若副表中没有可以和主表中匹配上，副表自动模拟出NULL与之匹配
 外连接最大的特点就是将主表中的数据全部插叙出来
-*/
 
-/*子查询（嵌套）
-select
-...(select)
-from
-...(select)
-where
-...(select)
+
+- 子查询（嵌套）
+   select
+   ...(select)
+   from
+   ...(select)
+   where
+   ...(select)
 
 mysql> select * from address where age > (select avg(age) from address);
 +-----------+------+-------------+---------+
@@ -355,16 +358,15 @@ mysql> select * from address where age > (select avg(age) from address);
 1 row in set (0.00 sec)
 
 
-from后接子查询，from后等价与一个新表
-select t*,s.grade from (select deptno,avg(sal) from emp group by deptno) t join salgrade s on t.avg(sal) between s.losal and s.hisal;
+- from后接子查询，from后等价与一个新表
+  select t*,s.grade from (select deptno,avg(sal) from emp group by deptno) t join salgrade s on t.avg(sal) between s.losal and s.hisal;
 
-*/
 
-//union将结果集在一起显示
+- union将结果集在一起显示
 
-//limit（重点） Mysql独有的分页查询
-//limit取结果集中的部分数据
-//语法   limit startindex(初始位置) length（取出的个数）
+- limit（重点） Mysql独有的分页查询
+  * limit取结果集中的部分数据
+  * 语法   limit startindex(初始位置) length（取出的个数）
 
 mysql> select name,age from address order by age limit 0,2;  //取前结果前两个数字 或者写成limit 2
 +-----------+------+
@@ -375,23 +377,23 @@ mysql> select name,age from address order by age limit 0,2;  //取前结果前�
 +-----------+------+
 2 rows in set (0.00 sec)
 
-通用分页标准（假如每页显示3个记录）
-第一页：limit 0,3
-第二页：limit 3,3
-第三页：limit 6,3
-...
-第n页：limit (n-1)*3,3
+- 通用分页标准（假如每页显示3个记录）
+   第一页：limit 0,3
+   第二页：limit 3,3
+   第三页：limit 6,3
+   ...
+   第n页：limit (n-1)*3,3
 
-常用数据类型：
-int         整数型
-bigint      长整型
-float       浮点型
-char        定长字符串
-varchar     可变长字符串
-//如果数据长度确定如生日，性别等就用char效率更高，不确定长度用varchar
-date        日期类型
-BLOB        二进制大对象（视频，图片等流媒体）
-CLOB        字符大对象（文本，文档）
+- 常用数据类型：
+   int         整数型
+   bigint      长整型
+   float       浮点型
+   char        定长字符串
+   varchar     可变长字符串
+   //如果数据长度确定如生日，性别等就用char效率更高，不确定长度用varchar
+   date        日期类型
+   BLOB        二进制大对象（视频，图片等流媒体）
+   CLOB        字符大对象（文本，文档）
 
  - 表的复制：
 create table 表名 as select...;
@@ -459,3 +461,128 @@ truncate table 表名   (只留表头，不可回滚)
          mysql> create table t_student(sno int,sname varchar(255),classno int,foreign key(classno) references t_class(cno));  //创建爱你子表
          Query OK, 0 rows affected (0.03 sec)
 
+ - 事务：一个事务是一个完整的业务逻辑，不可再分
+   * 比如，从银行账户A向B转账10000元：
+   update t_act set balence = balence - 10000 where actno = 'act-001';
+   update t_act set balence = balence + 10000 where actno = 'act-002';
+   想要完成以上需求必须要求以上两条都执行成功，或都执行失败，不允许任何一个失败或成功。就用到事务
+   事务的存在保证了数据的完整性和安全性。
+   事务原理：
+   * 开始事务机制
+   * 执行事务
+     update t_act set balence = balence - 10000 where actno = 'act-001';  //硬盘中数据不变动，将此操作结果在缓存中存储。
+     update t_act set balence = balence + 10000 where actno = 'act-002';  //硬盘中数据不变动，将此操作结果在缓存中存储。
+   * 提交事务（commit）或者事务回滚（rollback）
+     提交事务就将缓存清空，并且将缓存中存储的数据应用在硬盘上，将硬盘中数据改变
+     回滚事务也将缓存清空，然后没有然后了。。。
+   * 事务的四大特性ACID：
+      * A原子性：事务是最小的工作单元，不可再分。
+      * C一致性：事务必须同时保证多条DML语句同时成功或失败。
+      * I隔离性：事务A与事务B之间具有隔离。
+      * D持久性：最终数据必须持久化到文件，事务才算成功。
+   * 事务的隔离性
+     * 第一级别：读未提交
+         对方事务还未提交，我们当前事务可以读取到对方数据。
+         脏读现象：读到了对方未提交的脏数据。
+     * 第二级别：读已提交
+         对方事务提交后我方读取到，解决了脏读现象。
+         缺点：不能重复读取。
+     * 第三级别：可重复读
+         解决了不可重复读问题。
+         这种级别读取到的数据是幻象
+     第四级别：序列化/串行化读取
+         效率低，需要事务排队
+   * Mysql中的事务是自动提交的，关闭自动提交start transaction(可以理解为标志一个事务的开启);
+   * 演示事务：
+         mysql> start transaction;  //事务开始
+         Query OK, 0 rows affected (0.00 sec)
+
+         mysql> insert into user(name) values('ww');
+         Query OK, 1 row affected (0.00 sec)
+
+         mysql> insert into user(name) values('qq');
+         Query OK, 1 row affected (0.00 sec)
+
+         mysql> rellback;  //回滚事务
+         ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rellback' at line 1
+         mysql> select * from user;
+         +----+------+
+         | id | name |
+         +----+------+
+         |  1 | lc   |
+         |  2 | ww   |
+         |  3 | qq   |
+         +----+------+
+         3 rows in set (0.00 sec)
+
+         mysql> rollback;
+         Query OK, 0 rows affected (0.00 sec)
+
+         mysql> select * from user;
+         +----+------+
+         | id | name |
+         +----+------+
+         |  1 | lc   |
+         +----+------+
+         1 row in set (0.00 sec)
+
+         mysql> start transaction;  //事务开始
+         Query OK, 0 rows affected (0.00 sec)
+
+         mysql> insert into user(name) values('ww'),('qq');
+         Query OK, 2 rows affected (0.00 sec)
+         Records: 2  Duplicates: 0  Warnings: 0
+
+         mysql> select * from user;
+         +----+------+
+         | id | name |
+         +----+------+
+         |  1 | lc   |
+         |  4 | ww   |
+         |  5 | qq   |
+         +----+------+
+         3 rows in set (0.00 sec)
+
+         mysql> commit  //提交事务
+             -> ;
+         Query OK, 0 rows affected (0.00 sec)
+
+         mysql> select * from user;
+         +----+------+
+         | id | name |
+         +----+------+
+         |  1 | lc   |
+         |  4 | ww   |
+         |  5 | qq   |
+         +----+------+
+         3 rows in set (0.00 sec)
+- 索引
+  * 虽然索引的检索效率很高，但是数据库要对所以进行维护，如果一个表中需要不断修改数据，就不适合添加索引，因为一旦数据被修改了，索引就要重新排序，进行维护。
+  * select ename,sal from emp where ename='SMITH';
+  * 当e.name字段上没有添加索引的时候，会对全表进行扫描，扫描字段中的所有值。
+  * 当e.name字段上添加索引的时候，会对根据索引扫描。
+  * 主键和具有unique约束的会自动添加索引。所以根据主键查询效率较高
+  * 添加索引：create index 索引名称 on 表名（字段名）；
+  * create index emp_sal_index on emp(sal);  //在emp表上为sal添加索引emp_sal_index
+  * 删除索引：drop index 索引名称 on 表名；
+  * drop index emp_sal_index on emp;
+- 视图
+  * 视图的作用就是让别人改你的数据库的时候，只能修改你让他能改的东西。用于保密级别高的数据。
+  * 语法：
+  * create view 视图名 as select ...
+- DBA命令
+  * 数据库数据导出
+    mysqldump 数据库名>PATH/导出名.sql -uroot -p密码  //导出整个数据库
+    mysqldump 数据库名 表名>PATH/导出名.sql -uroot -p密码  //导出指定表
+  * 导入数据到数据库
+    create database 数据库名
+    use 数据库名
+    source PATH/文件名.sql
+- 数据库设计三范式
+  * 按照三范式设计的表没有数据冗余
+  * 第一范式：任何一张表必须有主键并且每一字段原子不可再分
+  * 第二范式：所有非主键字段完全依赖，不能产生部分依赖（两个主键会让其他数据部分依赖）
+      多对多：三张表，关系表两外键
+  * 第三范式：在第二范式基础之上，所有非主键字段直接依赖主键，不能产生传递依赖（依赖已有的字段，那个字段依赖主键）
+    一对多：两张表，多的表加外键
+  * 有时候，可以用冗余换速度，因为联查产生笛卡尔积，效率低
