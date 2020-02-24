@@ -9,3 +9,59 @@
         * webSphere:IBM,大型JavaEE服务器，支持所有JavaEE规范
         * JBOSS:大型JavaEE服务器，支持所有JavaEE规范
         * Tomcat:Apache基金组织，中小型JavaEE服务器，支持少量规范，开源，免费。
+3.Tomcat配置
+    - 直接将目录放入webapps目录下即可（简化部署：将项目压缩成war包）
+    - 配置server.xml
+        * <Context docbase="" path="/" />
+        * docbase = 项目存放的路径
+        * path = 虚拟目录
+    - 在/usr/local/Tomcat/conf/Catalina/localhost创建一个任意名字文件.xml，里面写<Context docbase="" />
+        * 虚拟目录就是xml文件的名称
+4.目录结构
+    - java动态目录结构
+        * 项目的根目录是WEB-INF：
+            * web.xml web项目核心配置文件
+            * classes目录：放置字节码文件.class的目录
+            * lib：放置依赖的jar包
+5.Servlet
+    - 就是一个接口，定义了Java类被浏览器识别/被Tomcat识别的规则
+    - 执行原理
+        * 当服务器接收到客户端请求，会解析url路径，获取访问Servlet的资源路径
+        * 查找web.xml文件，看是否有<url-pattern>对应内容
+        * 如果有再找到对应<servlet-class>全类名
+        * tomcat会将字节码文件载入内存，并为其创建对象
+        * 调用其方法
+    - Servlet是单例的，内存中只有一个对象，因此多个用户同时访问就会存在线程安全问题
+        * 解决方法就是尽量使用局部变量，少定义成员变量，即使定义了成员变量也不要对其修改值
+    - Servlet声明周期
+        * 被创建：执行init方法，只执行一次
+            * 默认情况，Servlet第一次被访问时被创建
+            * 可以制定Servlet创建时间
+                *   <!--配置ServletDemo2-->
+                    <servlet>
+                        <servlet-name>demo2</servlet-name>
+                        <servlet-class>com.web.servlet.ServletDemo2</servlet-class>
+                        <!--指定Servlet创建世纪
+                            1.第一次被访问时创建
+                                load-on-startup为负数时，被创建，默认值为1
+                            2.在服务器启动时创建
+                                 load-on-startup为0或正整数时，被创建
+                        -->
+
+                        <load-on-startup>1</load-on-startup>
+                    </servlet>
+
+                    <servlet-mapping>
+                        <servlet-name>demo2</servlet-name>
+                        <url-pattern>/demo2</url-pattern>
+                    </servlet-mapping>
+        * 提供服务：执行service方法，执行多次
+        * 被销毁：执行destroy方法，执只行一次
+            * 服务器关闭时，Servlet被销毁，但如果不是正常关闭，它也不会执行，它在Servlet被销毁之前执行。
+    - Servlet3.0
+    - 支持注解配置，不需要web.xml
+        * 步骤1：创建JavaEE项目，选择JavaEE6.0以上版本（Sevlet3.0以上），可以不创建web.xml
+        * 步骤2：定义一个类，实现Servlet方法
+        * 复写方法
+        * 在类上使用@WebServlet注解进行配置
+            * @WebServlet("Servlet资源路径")
