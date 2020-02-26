@@ -65,3 +65,121 @@
         * 复写方法
         * 在类上使用@WebServlet注解进行配置
             * @WebServlet("Servlet资源路径")
+    - Servlet体系结构
+        * Servlet  ..接口
+        *    |
+        * GennericServlet  ..抽象类：将Servlet其他方法默认空实现，只将Service作为抽象方法
+        *    |
+        * HttpServlet  ..抽象类：对Http协议的一种封装，简化操作
+                               1.定义类继承HttpServlet
+                               2.复写doGet和doPost方法
+    - Servlet相关配置
+        * urlpartten：Sevlet访问路径
+            * 一个Servlet可以有多个访问路径：WebServlet({"/demo","/demo1"})
+            * 路径定义规则：
+                * /xxx
+                * /xxx/xxx
+                * *.do
+    - HTTP协议
+        * 基于TCP/IP协议
+        * 默认端口：80
+        * 基于请求/响应模型：一次其请求对应一次响应
+        * 无状态：每一次请求之间是独立的，每个请求不能进行通信
+        * 请求行
+            * 常见的请求方式有两种GET和POST
+                * get
+                    * 请求参数在请求行中
+                    * url有限制长度
+                * post
+                    * 请求参数在请求体中
+                    * url无限制长度
+        * 请求头：客户端浏览器告诉服务器一些信息
+            * 常见的请求头
+                * 1.User-Agent：浏览器告诉服务器，浏览器的信息版本
+                * 2.Referer:告诉服务器，当前请求从哪里来
+                    * 第一作用：防盗令
+                    * 第二作用：统计工作
+        * 请求空行
+        * 请求体
+            * 封装POST请求消息的请求体
+    - Request
+        *请求过程：
+            * Tomcat会根据请求url中的资源路径，创建对应的ServletDemo对象
+            * Tomcat会创建两个对象，Request和Response，Request中封装请求消息数据
+            * Tomcat将Request和Response两个对象传递给service方法，并调用service方法
+            * 程序员可以通过Request获取请求消息，并通过Response设置响应消息数据
+            * 服务器在给浏览器响应消息之前。会从Response对象中拿设置好的响应消息
+        * Request对象继承体系结构
+            * ServletRequest  ..接口
+                    |（继承）
+              HttpServletRequest  ..接口
+                    |
+             org.apache.catalina.connector.RequestFacade （Tomcat类）
+        * Request功能
+            * 获取请求消息
+                * 获取请求行数据
+                    * GET /today/demo?p=22 HTTP/1.1
+                        * 获取请求方式方法 GET
+                            * String getMethod()
+                        * **获取虚拟目录 /today
+                            * String getContextPath()
+                        * 获取Servlet路径 /demo
+                            * String getServletPath()
+                        * 获取get方式的请求参数 p=22
+                            * String getQueryString()
+                        * **获取请求的URI,URL
+                            * String getRequestURI()  /today/demo
+                            * StringBuffer getRequestURL() :http://localhost/today/demo
+                        * 获取协议和版本 HTTP/1.1
+                            * String getProtocol()
+                        * 获取客户机的IP地址
+                            * String getRemoteAddr()
+                * 获取请求头数据
+                    * 通过球请求头的名称获取请求头的值
+                        * String getHeader(String name)
+                    * 获取所有请求头的名称
+                        * Enumeration<String> getHeaderNames()  //Enumeration<String>类似迭代其Iterator
+                * 获取请求体数据
+                    * 只有POST请求才有请求体，请求体中封装了POST的请求参数
+                    * 步骤1，获取流对象
+                        * BufferReader getReader():获取字符输入流
+                        * ServletInputStream getInputStream():获取字节输入流
+                    * 步骤2，从流中拿走数据
+                        * readLine()
+                        * read()
+            * 其他常用方法
+                * 获取请求参数通用方式
+                    * String getParameter(String name) : 根据参数名称获取参数值(name就返回zs，password就返回333)   name=zs&password=333
+                    * String[] getParameterValues(String name) :根据参数名称获取参数值数组
+                    * Enumberation<String> getParameterNames() :获取所有请求的参数名称
+                    * Map<String, String[]> getParameterMap() :获取所有参数的Map集合
+                        *   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                            Map<String, String[]> getparametermap = request.getParameterMap();
+                            Set<String> keyname = getparametermap.keySet();
+                            for (String name : keyname){
+                                System.out.println(name);
+                                String[] values = getparametermap.get(name);
+                                for (String value : values){
+                                    System.out.println(value);
+                                    }
+                                }
+                            }
+                    * 中文乱码问题
+                        * get方式在Tomcat8以上不会乱码
+                        * post会乱码：解决方法，在获取参数前，设置request流的编码为utf-8
+                            * request.setCharacterEncoding("utf-8")
+                * 请求转发：一种在服务器内部的资源跳转方式
+                    * 通过request对象获取请求转发器对象：RequestDispatcher getRequestDispatcher(String path)
+                    * 使用RequestDispatcher对象来进行转发：forward(ServletRequest request, ServletResponse response)
+                    * 特点：
+                        浏览器地址栏不发生变化
+                        只能转发到服务器内部资源
+                        转发只是一次请求
+                * 共享数据
+                    * 域对象：一个有作用范围的对象，可以在范围内共享数据
+                    * request域：代表一次请求范围，一般用于请求转发的多个资源中共享数据
+                        * 方法：
+                        * setAttribute(String name, Object obj)存储数据
+                        * Object getAttribute(String name)通过名字获取值
+                        * void removeAttribute(String name)通过键移除键值对
+                * 获取ServletContext
