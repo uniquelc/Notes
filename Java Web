@@ -200,7 +200,7 @@
                                 *removeAttribute(Sting name)
                             * 获取文件真实（服务器）路径
                                 * String getRealPath()
-                                    * ServletContext servletContext1 = this.getServletContext();
+                                    *   ServletContext servletContext1 = this.getServletContext();
                                         String a = servletContext1.getRealPath("/a.txt");  //web目录下的文件
                                         System.out.println(a);
                                         String c = servletContext1.getRealPath("/WEB-INF/a.txt");  //WEB-INF目录下的文件
