@@ -84,6 +84,8 @@
         * 基于TCP/IP协议
         * 默认端口：80
         * 基于请求/响应模型：一次其请求对应一次响应
+        * 请求消息：客户端发送给服务器的数据
+        * 响应消息：服务器发送给可客户端的数据
         * 无状态：每一次请求之间是独立的，每个请求不能进行通信
         * 请求行
             * 常见的请求方式有两种GET和POST
@@ -183,3 +185,86 @@
                         * Object getAttribute(String name)通过名字获取值
                         * void removeAttribute(String name)通过键移除键值对
                 * 获取ServletContext
+                    * 代表整个web应用，可以和web程序的容器（服务器）通信
+                    * 获取
+                        * 通过request对象，request.getServletContext()获取
+                        * 通过HttpServlet获取，this.getServletContext()获取
+                        * 功能：
+                            * 获取MIME类型:在互联网通讯过程中定义的一种类型
+                                 * 格式：大类型/小类型  text/html    image/jpeg
+                                 * 获取：getMimeType(String file)
+                            * 域对象：共享数据
+                                *域范围：所有用户请求的数据
+                                *setAttribute(String name,Object obj)
+                                *getAttribute(String name)
+                                *removeAttribute(Sting name)
+                            * 获取文件真实（服务器）路径
+                                * String getRealPath()
+                                    * ServletContext servletContext1 = this.getServletContext();
+                                        String a = servletContext1.getRealPath("/a.txt");  //web目录下的文件
+                                        System.out.println(a);
+                                        String c = servletContext1.getRealPath("/WEB-INF/a.txt");  //WEB-INF目录下的文件
+                                        System.out.println(c);
+                                        String a = servletContext1.getRealPath("WEB-INF/classes/a.txt");  //src目录下的文件
+                                        System.out.println(a);
+                    * 动态获取虚拟目录
+                        * getContextPath()方法
+    * JavaBean
+        * 标准的Java类
+            * 类必须被public修饰
+            * 必须提供空参构造器
+            * 有setter and getter
+            * 成员变量必须私有
+        * 方法
+            * getProperty()
+            * setProperty()
+            * populate(Object obj, Map map)将map集合键值对对象封装到JavaBean中
+    * Response
+        *功能：设置响应消息
+            * 设置响应行
+                * 格式：HTTP/1.1 200 ok
+                * 响应状态码：服务器告诉客户端浏览器本次请求和响应的状态
+                    * 1xx:服务器接受客户端消息但是没有接收完成，等待一段消息后，发送1xx状态玛
+                    * 2xx:成功，代表：200
+                    * 3xx:重定向，代表：302（重定向），304（访问缓存）
+                    * 4xx:客户端错误，代表 404（请求路径没有对应的资源）405（请求方式没有对应的doXXX方法）
+                    * 5xx:服务器端错误，代表 500（服务器内部出现异常）
+                * 设置状态码设置：setStatus(int sc)
+            * 设置响应头:setHeader(String name, String value)
+                response.setCharacterEncoding("utf-8");
+                //告诉浏览器服务器发送数据的编码格式
+                response.setHeader("content-type","text/html;charset=utf-8");
+                //获取输出流
+                PrintWriter pw = response.getWriter();
+                //输出数据
+                pw.write("你好 Response");
+                * Content-Type:服务器告诉客户端本次响应体数据格式以及编码格式
+                    * response.setContentType("text/html;utf-8");
+                * Content-dispostion:服务器告诉客户端以什么 格式打开我的响应体数据
+            * 设置响应体：传输的数据
+                * 和request一样通过流的方式进行响应
+                * 获取输出流
+                    * 字节输出流：PrintWrite getWrite()
+                    * 字符输出流：ServletOutputStream getOutputStream()
+                * 使用输出流，将数据输出到客户端浏览器
+        * 重定向
+            *   System.out.println("Demo1...");
+                //设置状态码为302
+                response.setStatus(302);
+                //重定向至/responseDemo2
+                response.setHeader("location","/responseDemo2");
+            * 重定向方法
+                * 简单的方法：sendRedirect("PATH")  
+                //动态获取虚拟路径
+                * String contextpath = request.getContextPath();
+                * response.sendRedirect(contextpath + "/responseDemo2");
+            * 重定向的特点 redirect
+                * 地址栏发生变化
+                * 重定向可以访问其他服务器的资源
+                * 重定向是两次请求，不能使用request共享数据
+            * 转发的特点 forward
+                * 转发地址栏路径不变
+                * 转发只能转发当前服务器下的资源
+                * 转发是一次请求
+        * 服务器输出字符数据到浏览器
+            * 
