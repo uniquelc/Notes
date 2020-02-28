@@ -302,3 +302,47 @@
                 * 多个服务器集之间共享
                     * setDomain(String path) :如果一级域名相同那么可以共享
                         * setDomain(".baidu.com")，这样的话tieba.baidu.com和news.baidu.com可以共享
+7.JSP
+    * Java Server Pages(JSP)
+        * 理解为一个特殊的页面，其中既可以直接定义html标签又可以写Java代码
+        * 用于简化书写
+        * JSP本质上就是Servlet
+        * JSP的脚本:JSP定义了Java代码的方式
+            * <% 代码 %> ：定义的Java代码在service方法中，service方法中可以定义什么，该脚本中就可以定义什么
+            * <%! 代码 %> ：定义的成员，可定义变量或方法
+            * <%= 代码 %> ：定义Java代码会输出到页面上
+        * JSP的内置对象
+            * 在JSP中不需要获取和创建，可以直接使用的对象
+            * JSP一共有9个内置对象
+                * out:字符输出流对象，可以将数据输出到页面上,和response.getWriter()类似
+                * request
+                * response
+8.Session
+    * 服务器端会话技术，在一次会话的多次请求间共享数据，将数据保存在服务器中。HttpSession
+    * 快速入门：
+        * HttpSession对象：
+            * Object getAttribute(String name)
+            * void setAttribute(String name, Object value)
+            * void removeAttribute(String name)
+        * Session的实现是依赖于Cookie的
+        * 细节
+            * 客户端关闭，服务器不关闭，两次Session是否为同一个
+                * 不是,因为客户端浏览器关闭会话结束，session肯定不为同一个
+                * 解决方法：创建一个cookie，键为JSESSIONID，将session存入，设置存活时间即可
+            * 客户端不关闭，服务器关闭，两次Session是否为同一个
+                * 不是，但是要确保数据不丢失
+                * Session的钝化（序列化）
+                    * 在服务器正常关闭之前，将session序列化到硬盘上
+                * Session的活化（反序列化）
+                    * 在服务器启动后，将session文件转化为内存中的session对象
+            * Session的生命周期
+                * seesion调同对象invalidate()方法会自杀
+                * session默认失效时间30分钟
+            * Session的特点
+                * session用于储存一次会话的多次请求的数据，存在服务器端
+                * session可以存储任意类型，任意大小的数据
+            * Session与Cookie的区别
+                * Session存储在服务器端，Cookie存储在客户端
+                * Session没有大小类型限制,Cookie有限制
+                * Session的数据存在服务器端，比较安全，Cookie相对不安全
+
