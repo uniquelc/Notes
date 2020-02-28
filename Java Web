@@ -299,3 +299,6 @@
                     * 默认不能共享
                     * setPath(String Path)设置Cookie获取范围
                         * 可以将Path设置为"/"共享
+                * 多个服务器集之间共享
+                    * setDomain(String path) :如果一级域名相同那么可以共享
+                        * setDomain(".baidu.com")，这样的话tieba.baidu.com和news.baidu.com可以共享
