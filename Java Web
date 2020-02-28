@@ -268,3 +268,34 @@
                 * 转发是一次请求
         * 服务器输出字符数据到浏览器
             * 
+6.会话：一次会话中包含了多次请求和响应
+    * 功能：在一次会话的范围内的多次请求间，共享数据
+    * 方式：客户端会话技术（Cookie），服务器会话技术（Session）
+    * Cookie :将数据保存到客户端
+        * 原理
+            * response通过HTTP协议中的set-cookie响应头将Cookie传入客户端
+            * request通过HTTP协议中的Cookie请求头将Cookie传入服务器
+        * 使用步骤
+            * 创建Cookie对象，绑定数据
+                * new Cookie(String name, String value)
+            * 发送Cookie
+                * response.addCookie(Cookie cookie)
+            * 获取Cookie拿到数据
+                * Cookie[] requset.getCookies()
+        * 细节学习
+            * 一次可不可以发送多个Cookie
+                * 创建多个Cookie对象即可
+            * Cookie在浏览器中保存多久
+                * 默认情况，浏览器关闭即关闭（储存在浏览器内存中）
+                * 持久化存储：
+                    * setMaxAge(int seconds)方法
+                        * seconds为正数：将Cookie数据写到硬盘的文件中，seconds数表示存活时间，时见到就被销毁
+                        * seconds为负数：默认值
+                        * seconds为零：删除Cookie信息
+            * Cookie能不能保存中文
+                * Tomcat8之后可以
+            * Cookie共享
+                * 一个Tomcat服务器里有多个项目，这些项目能否共享Cookie数据
+                    * 默认不能共享
+                    * setPath(String Path)设置Cookie获取范围
+                        * 可以将Path设置为"/"共享
