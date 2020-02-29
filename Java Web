@@ -307,6 +307,21 @@
         * 理解为一个特殊的页面，其中既可以直接定义html标签又可以写Java代码
         * 用于简化书写
         * JSP本质上就是Servlet
+        * JSP指令：配置JSP页面，导入资源文件
+            * 格式：<%@ 指令名称 属性名1=属性值 属性名2=属性值 ...%>
+            * 分类
+                * page：配置JSP页面
+                    * contentType:等同于response.setContenttype()
+                        * 设置响应体的mime类型以及字符集
+                        * 设置当前jsp页面的编码
+                * include：页面包含的，导入页面的资源文件
+                    * <%@include file="其他jsp页面"%>
+                * taglib：导入资源
+                    * <%@ taglib prefix="c" uri="PATH"%>
+                    * prefix表示前缀
+        * JSP注释
+            * html注释：<!-- --> 只能注释html
+            * jsp注释：<%-- --%> 可以注释所有
         * JSP的脚本:JSP定义了Java代码的方式
             * <% 代码 %> ：定义的Java代码在service方法中，service方法中可以定义什么，该脚本中就可以定义什么
             * <%! 代码 %> ：定义的成员，可定义变量或方法
@@ -315,8 +330,42 @@
             * 在JSP中不需要获取和创建，可以直接使用的对象
             * JSP一共有9个内置对象
                 * out:字符输出流对象，可以将数据输出到页面上,和response.getWriter()类似
-                * request
-                * response
+                * response:响应对象
+                * pageContext：当前页面共享数据
+                * request：一次请求访问的多个资源
+                * session：一次会话的多个请求
+                * application：所有用户间共享数据
+                * page：当前（Servlet）页面的共享数据
+                * config：Servlet配置对象
+                * exception：异常对象
+    * EL表达式：替换JSP中Java代码的编写
+        * 语法：${表达式}
+        * 忽略EL表达式，在表达式前面加上转移符/${表达式}
+        * 使用范围
+            * 运算
+                * 运算符
+                    * 算术运算符：+-*/(div)%(mod)
+                    * 比较运算符: == > < >= <= !=
+                    * 逻辑运算符: &&(and) ||(or) !(not)
+                    * 空运算符:empty() 可判断字符串，数组，集合的长度是否为0 ${empty list},${not empty list}（判断不为空并且长度大于0）
+            * 获取值
+                * 从域对象中获取值
+                    * 语法
+                        * 第一种语法：${域名称.键名} ，从指定域中获取指定键的值
+                        * 例如：在request域中存储了name=张三
+                                * 获取：：${requestScope.name}
+                            * 域名称pageScope -->pageContext
+                            * 域名称requestScope -->request
+                            * 域名称sessionScope -->session
+                            * 域名称applicationScope -->application(ServletContext)
+                        * 第二种语法：${name}
+                    * 获取域中对象的值
+                        * ${域名称.键名.属性名} 属性名：getName-->Name-->name(去get变小写)
+                * 从List中获取值
+                    * ${域名称.键名[索引]} (越界不会报错)
+                * 从Map集合中获取值
+                    * ${域名称.键名.key名称}
+                    * ${域名称.键名[key名称]}
 8.Session
     * 服务器端会话技术，在一次会话的多次请求间共享数据，将数据保存在服务器中。HttpSession
     * 快速入门：
@@ -345,4 +394,16 @@
                 * Session存储在服务器端，Cookie存储在客户端
                 * Session没有大小类型限制,Cookie有限制
                 * Session的数据存在服务器端，比较安全，Cookie相对不安全
-
+9.MVC开发模式
+    * M：Model
+    * V：View
+    * C：Controller
+        * 控制器Controller用处
+            * 获取客户端输入
+            * 调用模型（处理数据）
+            * 将数据交给视图展示
+        * 模型Model用处
+            * 业务逻辑操作（查询数据库，封装数据）
+        * 视图View用处
+            * 展示数据
+    * 在JSP+Servlet+JavaBean模式中，Model充当JavaBean，Controller充当Servlet，View充当JSP
