@@ -11,8 +11,8 @@
 
 Java:
 
-- [JavaNotebook]([https://github.com/uniquelc/Notes/blob/master/Java/JAVA%20Notebook](https://github.com/uniquelc/Notes/blob/master/Java/JAVA Notebook))
-- [JavaWeb]([https://github.com/uniquelc/Notes/blob/master/Java/Java%20Web](https://github.com/uniquelc/Notes/blob/master/Java/Java Web))
+- [JAVA Notebook](https://github.com/uniquelc/Notes/blob/master/Java/JAVA Notebook)
+- [Java Web](https://github.com/uniquelc/Notes/blob/master/Java/Java Web)
 
 Database:
 
