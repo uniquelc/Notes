@@ -23,7 +23,7 @@ Linux:
 
 - [Linux根目录文件夹用处](https://github.com/uniquelc/Notes/blob/master/Linux/Linux根目录文件夹用处)
 
-algorithm (Python implement):
+Algorithm (Python implement):
 
 - [二叉搜索树](https://github.com/uniquelc/Notes/blob/master/Leetcode/二叉搜索树)
 - [冒泡排序](https://github.com/uniquelc/Notes/blob/master/Leetcode/冒泡排序)
