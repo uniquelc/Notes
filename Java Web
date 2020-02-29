@@ -366,6 +366,31 @@
                 * 从Map集合中获取值
                     * ${域名称.键名.key名称}
                     * ${域名称.键名[key名称]}
+    * JSTL
+        * JSP标准标签库
+        * 作用：用于简化和替换jsp页面的Java代码
+        * 使用步骤
+            * 导入jar包
+            * 引入标签库：<%@ taglib>
+        * 常用的标签
+            * if
+                * 属性
+                    * test必须属性，接受boolean表达式，相当于Java中的if后面的()中的内容
+                    <c:if test="true">
+                    test
+                    <c:if>  //输出test
+                    * c:if标签没有else，可以再加一个c:if标签
+            * choose
+            * forEach
+                * 属性
+                    * begin
+                    * end
+                    * var：临时变量
+                    * step：步长
+                        * <c:forEach begin="1" end="10" var="i" step="1">
+                              ${i}
+                          <c:forEach>
+            
 8.Session
     * 服务器端会话技术，在一次会话的多次请求间共享数据，将数据保存在服务器中。HttpSession
     * 快速入门：
@@ -407,3 +432,15 @@
         * 视图View用处
             * 展示数据
     * 在JSP+Servlet+JavaBean模式中，Model充当JavaBean，Controller充当Servlet，View充当JSP
+10.三层架构
+    * 界面层(表示层web层)
+        * 接受用户的参数，封装数据，调用业务逻辑层
+        * web Package
+        * Spring MVC框架
+    * 业务逻辑层(service层)：完成功能，登陆，注册等
+        * 组合DAO层中的CRUD方法，形成复杂的功能（业务逻辑的操作）
+        * service Package
+        * Spring框架
+    * 数据访问层(DAO层)：操作数据存储文件
+        * dao Package
+        * MyBatis框架
